@@ -9,7 +9,6 @@ def check_seq(lst):
     res1 = ""; res2 = ""
     for i in range(len(lst)-1):
         res1 = (lst[i + 1] > lst[i] and abs(lst[i + 1] - lst[i]) < 4) and (res1 or res1 == "")
-    for i in range(len(lst)-1):
         res2 = (lst[i + 1] < lst[i] and abs(lst[i + 1] - lst[i]) < 4) and (res2 or res2 == "")
     return (res1, res2)
             
