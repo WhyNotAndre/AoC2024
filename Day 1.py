@@ -1,4 +1,4 @@
-fpath = r""
+fpath = r"" # path to input file
 
 with open(fpath, 'r') as f:
     contents = f.read()
@@ -14,13 +14,12 @@ for l in list:
 # PART 2
 for item in l1:
     cnt = l2.count(item)
-    sum2 = sum2 + (item*cnt)
+    sum2 += item*cnt
     
 # PART 1
-for i in range(0, len(l1)):
-    sum1 = sum1 + abs(min(l1) - min(l2))
+for i in range(len(l1)):
+    sum1 += abs(min(l1) - min(l2))
     l1.pop(l1.index(min(l1)))
     l2.pop(l2.index(min(l2)))
 
-print(sum1)
-print(sum2)
+print(f"{sum1}\n{sum2}")
