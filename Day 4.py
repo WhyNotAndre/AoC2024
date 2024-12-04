@@ -1,3 +1,6 @@
+# Disclaimer: 
+# I ABSOLUTELY HATE THIS EXACT PUZZLE, DON'T BLAME ME FOR STUPID SOLUTION, 
+# BLAME AUTHORS FOR STUPID PUZZLES INSTEAD
 import re
 
 fp = r""  # path to input file
@@ -7,6 +10,7 @@ with open(fp, 'r') as f:
 damn = [line for line in contents]
 length = len(damn[1])
 
+# Part 1
 def patternmatch(str):
     pattern = r'XMAS'
     patternrev = r'SAMX'    # reversed
@@ -33,7 +37,7 @@ for j in range(len(damn[0])):
     finresV += checkV(damn, j)
 
 
-def print_diagonals(damn):
+def diagonals(damn):
     r3 = 0; r4 = 0; r5 = 0; r6 = 0
     if not damn or not damn[0]:
         return
@@ -79,4 +83,27 @@ def print_diagonals(damn):
 
     return r3 + r4 + r5 + r6
 
-print(finresH + finresV + print_diagonals(damn))
+print(finresH + finresV + diagonals(damn))
+
+# Part 2
+def patternmatch2(str):
+    rs = re.findall(f"{r'MMASS'}|{r'MSAMS'}|{r'SSAMM'}|{r'SMASM'}", str)    # all combinations of 1,3,5,7,9th elem in 3x3
+    # print(rs)
+    return rs
+
+def extract_3x3_blocks(matrix):
+    blocks = []
+    for i in range(len(matrix) - 2):
+        for j in range(len(matrix[i]) - 2):
+            block = [row[j:j+3] for row in matrix[i:i+3]]
+            blocks.append(block)
+    return blocks
+
+blocks = extract_3x3_blocks(damn)
+
+crosses = 0
+for blk in blocks:
+    _ = ''.join(blk)
+    __ = _[0] + _[2] + _[4] + _[6] + _[8]   # get this stupid cross
+    crosses += len(patternmatch2(__))
+print(crosses)
