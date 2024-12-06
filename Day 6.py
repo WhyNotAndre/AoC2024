@@ -42,7 +42,7 @@ while a:
                 a = False
                 print(np.sum(arr=='+'))
         else:
-            print('trigger turn')
+            # print('trigger turn')
             if iter < 3:
                 iter += 1 if iter < 3 else 0
             else:
@@ -51,3 +51,100 @@ while a:
     except IndexError:  # CHECK OOB (NOT WORKING SOMEHOW)
         print(np.sum(arr=='+')+1) # COMPENSATE FOR LAST STEP BEFOR OOB
         a = False
+        
+
+# part 2 (NOT WORKING, BUT I'VE GOT RIGHT ANSWER ON TEST EXAMPLE)
+with open(inp, 'r') as f:
+    lines = f.readlines()
+
+chars = [list(line.strip()) for line in lines]
+arr = np.array(chars)
+res = 0
+ind = np.where(arr=='^')
+loc = (int(ind[0]), int(ind[1]))
+# idk y my arr has elem len of 1, so this garbage is to bypass this
+lst = ['1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+def aaaa():       
+    global res, lst
+
+    locx = loc[1]
+    locy = loc[0]
+    loopcnt = 0
+    iter = 0
+    direcs = ['U', 'R', 'D', 'L']
+
+    a = True
+    while a:
+        if int(loopcnt) <= 33:  # assuming that if loc was visited less than 34 times, theres no infinite loop (seems  like it really is)
+            try:
+                currentdirec = direcs[iter]
+                
+                # SELECT DIRECTION
+                if currentdirec == 'U': shiftx = 0; shifty = -1
+                if currentdirec == 'R': shiftx = 1; shifty = 0
+                if currentdirec == 'D': shiftx = 0; shifty = 1
+                if currentdirec == 'L': shiftx = -1; shifty = 0
+    
+                # if arr[locy+shifty, locx+shiftx] != "#":
+                #     try:
+                #         _ = int(arr[locy, locx])
+                #         if int(arr[locy, locx]) in [1,2,3,4,5,6,7,8,9]:
+                #             arr[locy, locx] = int(arr[locy, locx]) + 1
+                #         else:
+                #             arr[locy, locx] = 1
+                #     except:
+                #         arr[locy, locx] = 1
+                        
+                        
+                if arr[locy+shifty, locx+shiftx] != "#":
+                    if arr[locy, locx] in lst:
+                        arr[locy, locx] = lst[lst.index(arr[locy, locx]) + 1]
+                    else:
+                        arr[locy, locx] = lst[1]
+
+    
+                    loopcnt = lst.index(arr[locy, locx]) + 1
+                    # print(loopcnt)
+                    locx += shiftx
+                    locy += shifty
+                    # arr[locy, locx] = '^'
+                    if locy < 0:
+                        a = False
+                else:
+                    if iter < 3:
+                        iter += 1 if iter < 3 else 0
+                    else:
+                        iter = 0
+                
+            except IndexError:
+                a = False
+        else:    
+            res = True
+            break
+        
+    return res
+        
+        
+total = 0
+for i in range(len(arr)):
+    for j in range(len(arr)):
+        
+        with open(inp, 'r') as f:
+            lines = f.readlines()
+            
+        # reset arr
+        chars = [list(line.strip()) for line in lines]
+        arr = np.array(chars)
+        res = 0
+        ind = np.where(arr=='^')
+        loc = (int(ind[0]), int(ind[1]))
+        
+        if arr[i,j] not in ['#', '^']:
+            prev = arr[i,j]
+            arr[i,j] = '#'  # change each . to # and check
+            if aaaa(): total += 1
+            arr[i,j] = prev # this is probably useless
+            
+print(total)
+        
