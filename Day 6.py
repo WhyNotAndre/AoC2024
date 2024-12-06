@@ -53,7 +53,7 @@ while a:
         a = False
         
 
-# part 2 (NOT WORKING, BUT I'VE GOT RIGHT ANSWER ON TEST EXAMPLE)
+# part 2
 with open(inp, 'r') as f:
     lines = f.readlines()
 
@@ -67,7 +67,7 @@ lst = ['1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i', 
 
 def aaaa():       
     global res, lst
-
+    res = False
     locx = loc[1]
     locy = loc[0]
     loopcnt = 0
@@ -109,16 +109,18 @@ def aaaa():
                     locx += shiftx
                     locy += shifty
                     # arr[locy, locx] = '^'
-                    if locy < 0:
-                        a = False
+                    if locy < 0 or locx < 0 or locy > len(arr) - 1 or locx > len(arr) - 1: # exclude OOB
+                        # a = False
+                        break
                 else:
                     if iter < 3:
                         iter += 1 if iter < 3 else 0
                     else:
                         iter = 0
                 
-            except IndexError:
-                a = False
+            except:
+                # a = False
+                break
         else:    
             res = True
             break
@@ -127,6 +129,7 @@ def aaaa():
         
         
 total = 0
+ar = []
 for i in range(len(arr)):
     for j in range(len(arr)):
         
@@ -136,15 +139,16 @@ for i in range(len(arr)):
         # reset arr
         chars = [list(line.strip()) for line in lines]
         arr = np.array(chars)
-        res = 0
+        res = False
         ind = np.where(arr=='^')
         loc = (int(ind[0]), int(ind[1]))
         
         if arr[i,j] not in ['#', '^']:
             prev = arr[i,j]
             arr[i,j] = '#'  # change each . to # and check
-            if aaaa(): total += 1
-            arr[i,j] = prev # this is probably useless
+            if aaaa(): total += 1    #; ar.append([i,j])
+            # print(arr)
+            # arr[i,j] = prev # this is probably useless
             
 print(total)
         
