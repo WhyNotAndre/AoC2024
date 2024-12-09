@@ -1,4 +1,4 @@
-inp = r'C:\stuff4coding\proj\python\small stuff\AoC 2024\9inp.txt' # path to input file
+inp = r'' # path to input file
 
 with open(inp) as f:
     line = f.read()
